@@ -1,11 +1,12 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def home():
-    return "Home Page"
+    item_list = ["python", "react", "node.js", "next.js", "websocket"]
+    return render_template("index.html", items=item_list)
 
 
 @app.route("/about")
@@ -15,7 +16,7 @@ def about():
 
 @app.route("/user/<username>/<age>")
 def show_user(username, age):
-    return "User %s, %s" % (username, age)
+    return render_template("user.html", name=username, user_age=age)
 
 
 @app.route("/post/<int:post_id>", methods=["GET"])
