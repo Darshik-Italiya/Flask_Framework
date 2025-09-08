@@ -8,7 +8,6 @@ def home():
     item_list = ["python", "react", "node.js", "next.js", "websocket"]
     return render_template("index.html", items=item_list)
 
-
 @app.route("/about")
 def about():
     return "About Page"
