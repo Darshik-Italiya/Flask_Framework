@@ -6,14 +6,35 @@
     <title>Form</title>
   </head>
   <body>
+    {% with messages = get_flashed_messages(with_categories = true) %} {% if
+    messages %}
+    <ul>
+      {% for category, message in messages %}
+      <li>{{category}} : {{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+
     <form action="/submit" , method="post">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required />
-      <br /><br />
-      <label for="age">Age:</label>
-      <input type="number" id="age" name="age" required />
-      <br /><br />
-      <input type="submit" value="Submit" />
+      {{form.hidden_tag()}}
+
+      <p>
+        {{form.name.label}} <br />
+        {{form.name(size=32)}} <br />
+        {%if error in form.name.errors%}
+        <span style="color: red">[{{error}}]</span>
+        {%endif%}
+      </p>
+
+      <p>
+        {{form.email.label}} <br />
+        {{form.email(size=32)}} <br />
+        {%if error in form.email.errors%}
+        <span style="color: red">[{{error}}]</span>
+        {%endif%}
+      </p>
+
+      <p>{{form.submit()}}</p>
     </form>
   </body>
 </html>
