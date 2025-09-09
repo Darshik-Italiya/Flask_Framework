@@ -1,8 +1,21 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
 from form import MyForm
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config["SECRET_KEY"] = "rk4hi5jthn5tji56h6kj7nkjntjgkfng"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100), unique=True)
+
+    def __repr__(self):
+        return f"User: {self.name}, email: {self.email}"
 
 @app.route("/")
 def home():
