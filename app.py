@@ -32,6 +32,20 @@ def users():
     return render_template("users/index.html", users=users)
 
 
+@app.route("/users/<int:id>/edit", methods=["GET", "POST"])
+def edit_user(id):
+    user = User.query.get(id)
+    form = MyForm(obj=user)
+    if form.validate_on_submit():
+        user.name = form.name.data
+        user.email = form.email.data
+        db.session.commit()
+        flash("User updated successfully")
+        return redirect(url_for("users"))
+
+    return render_template("users/edit.html", form=form, user=user)
+
+
 @app.route("/submit", methods=["GET", "POST"])
 def submitData():
     form = MyForm()
