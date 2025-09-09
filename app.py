@@ -29,7 +29,8 @@ def home():
 @app.route("/users")
 def users():
     users = User.query.all()
-    return render_template("users/index.html", users=users)
+    form = MyForm(obj=users)
+    return render_template("users/index.html", users=users, form=form)
 
 
 @app.route("/users/<int:id>/edit", methods=["GET", "POST"])
@@ -44,6 +45,15 @@ def edit_user(id):
         return redirect(url_for("users"))
 
     return render_template("users/edit.html", form=form, user=user)
+
+
+@app.route("/users/<int:id>/delete", methods=["POST"])
+def delete_user(id):
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    flash("User deleted successfully...")
+    return redirect(url_for("users"))
 
 
 @app.route("/submit", methods=["GET", "POST"])
