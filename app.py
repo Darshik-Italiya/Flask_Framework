@@ -26,6 +26,12 @@ def home():
     return render_template("index.html", items=item_list)
 
 
+@app.route("/users")
+def users():
+    users = User.query.all()
+    return render_template("users/index.html", users=users)
+
+
 @app.route("/submit", methods=["GET", "POST"])
 def submitData():
     form = MyForm()
