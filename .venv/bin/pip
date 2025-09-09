@@ -1,4 +1,4 @@
-#!/home/ts/Python/Flask/Flask_Framework/.venv/bin/python
+#!/home/ts/Python/Flask/Flask_Framework/.venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
