@@ -26,9 +26,13 @@ def show_post(post_id):
 @app.route("/submit", methods=["GET", "POST"])
 def submitData():
     if request.method == "POST":
-        return "Data Submitted Successfully.."
+        name = request.form.get("name")
+        age = request.form.get("age")
+        return f"Data Submitted Successfully.. name: {name}, age: {age}"
     else:
-        return "Please Submit the form!"
+        name = request.args.get("name")
+        age = request.args.get("age")
+        return f"Data Submitted Successfully.. name: {name}, age: {age}"
 
 
 if __name__ == "__main":
