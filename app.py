@@ -24,8 +24,18 @@ class User(db.Model):
     name = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
 
+    profile = db.relationship("Profile", backref="user", uselist=False)
+
     def __repr__(self):
         return f"User: {self.name}, email: {self.email}"
+
+
+class Profile(db.Model):
+    __tablename__ = "profile"
+
+    id = db.Column(db.Integer, primary_key=True)
+    bio = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), unique=True)
 
 
 # Blog Table
@@ -61,6 +71,10 @@ def new_user():
     if form.validate_on_submit():
 
         new_user = User(name=form.name.data, email=form.email.data)
+        db.session.add(new_user)
+        db.session.commit()
+
+        new_profile = Profile(bio=form.bio.data, user=new_user)
         db.session.add(new_user)
         db.session.commit()
 

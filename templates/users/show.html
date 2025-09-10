@@ -17,6 +17,9 @@
     <p>
       <strong>Email:</strong> {{ user.email }}
     </p>
+    <p>
+      <strong>Bio:</strong> {{ user.profile.bio }}
+    </p>
 
     <a href="{{ url_for('users') }}"><button>Back</button></a>
   </body>

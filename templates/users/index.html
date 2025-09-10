@@ -13,6 +13,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Email</th>
+        <th>Bio</th>
         <th>Actions</th>
       </tr>
       {% for user in users %}
@@ -20,6 +21,7 @@
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
+          <td>{{ user.profile.bio }}</td>
           <td>
             <div style="display: flex; gap: 5px;">
               <a href="/users/{{ user.id }}/edit"><button>Edit</button></a>
