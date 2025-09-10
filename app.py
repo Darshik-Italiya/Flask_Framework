@@ -25,6 +25,7 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
 
     profile = db.relationship("Profile", backref="user", uselist=False)
+    blogs = db.relationship("Blog", backref="author", lazy=True)
 
     def __repr__(self):
         return f"User: {self.name}, email: {self.email}"
@@ -47,6 +48,8 @@ class Blog(db.Model):
     content = db.Column(db.Text)
     image_file = db.Column(db.String(200), default="default.jpg")
     created_at = db.Column(db.DateTime, default=datetime.now())
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     def __repr__(self):
         return f"Blogs: {self.title}, {self.content}, {self.created_at}"
@@ -127,7 +130,8 @@ def submitData():
 @app.route("/users/<int:id>")
 def show_user(id):
     user = User.query.get(id)
-    return render_template("users/show.html", user=user)
+    blogs = user.blogs
+    return render_template("users/show.html", user=user, blogs=blogs)
 
 
 @app.route("/blogs")
@@ -149,6 +153,7 @@ def create_blog():
 
         title = request.form.get("title")
         content = request.form.get("content")
+        author_id = 1
 
         file = request.files.get("image_file")
         if file and allowed_files(file.filename):
@@ -160,7 +165,9 @@ def create_blog():
         # Store relative path for image_file
         image_path = os.path.join("images", filename)
 
-        new_blog = Blog(title=title, content=content, image_file=image_path)
+        new_blog = Blog(
+            title=title, content=content, image_file=image_path, user_id=author_id
+        )
 
         db.session.add(new_blog)
         db.session.commit()
