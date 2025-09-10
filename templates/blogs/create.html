@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blogs</title>
+  </head>
+  <body>
+    <h1>New Blog</h1>
+
+    <form action="{{ url_for('create_blog') }}" method="post" enctype="multipart/form-data">
+      <label for="title">Title:</label><br />
+      <input type="text" id="title" name="title" /><br /><br />
+
+      <label for="content">Content:</label><br />
+      <textarea id="content" name="content"></textarea><br /><br />
+
+      <label for="image_file">Image</label>
+      <input type="file" id="image_file" name="image_file" /><br /><br />
+
+      <div style="display: flex; gap: 5px;">
+        <input type="submit" value="Submit" />
+        <a href="{{ url_for('blogs') }}"><button>Back</button></a>
+      </div>
+    </form>
+  </body>
+</html>

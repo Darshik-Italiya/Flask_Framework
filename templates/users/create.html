@@ -16,7 +16,8 @@
       {% endif %}
     {% endwith %}
 
-    <form action="/submit" method="post">
+    <h1>New User Form</h1>
+    <form action="{{ url_for('new_user') }}" method="post">
       {{ form.hidden_tag() }}
 
       <p>
