@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
   <body>
-    <h1>Home Page</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/users">Users</a> |
+      <a href="/blogs">Blogs</a>
+    </nav>
+    <h1>Flask</h1>
     <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="" />
 
     <ul>
@@ -15,6 +20,10 @@
         <li>{{ item }}</li>
       {% endfor %}
     </ul>
+
+    <footer>
+      <p>&copy; 2025 My Blogs</p>
+    </footer>
 
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   </body>
