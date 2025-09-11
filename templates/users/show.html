@@ -1,51 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Show Users</title>
-  </head>
-  <body>
-    <h1>User Detail</h1>
+{% extends 'base.html' %}
 
-    <p>
-      <strong>ID:</strong> {{ user.id }}
-    </p>
-    <p>
-      <strong>Name:</strong> {{ user.name }}
-    </p>
-    <p>
-      <strong>Email:</strong> {{ user.email }}
-    </p>
-    <p>
-      <strong>Bio:</strong> {{ user.profile.bio }}
-    </p>
-    <p>
-      <strong>User Roles:</strong>
-      {% if user.roles %}
-        <ul>
-          {% for role in user.roles %}
-            <ol>{{ role.name }}</ol>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    </p>
+{% block content %}
+  <h1>User Detail</h1>
 
-    <hr />
-
-    <h2>Blogs</h2>
-
-    {% if blogs %}
-      {% for blog in blogs %}
-        <div class="post">
-          <h3>{{ blog.title }}</h3>
-          <p>{{ blog.content }}</p>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p>No data available</p>
+  <p>
+    <strong>ID:</strong> {{ user.id }}
+  </p>
+  <p>
+    <strong>Name:</strong> {{ user.name }}
+  </p>
+  <p>
+    <strong>Email:</strong> {{ user.email }}
+  </p>
+  <p>
+    <strong>Bio:</strong> {{ user.profile.bio }}
+  </p>
+  <p>
+    <strong>User Roles:</strong>
+    {% if user.roles %}
+      <ul>
+        {% for role in user.roles %}
+          <ol>{{ role.name }}</ol>
+        {% endfor %}
+      </ul>
     {% endif %}
+  </p>
 
-    <a href="{{ url_for('users') }}"><button>Back</button></a>
-  </body>
-</html>
+  <hr />
+
+  <h2>Blogs</h2>
+
+  {% if blogs %}
+    {% for blog in blogs %}
+      <div class="post">
+        <h3>{{ blog.title }}</h3>
+        <p>{{ blog.content }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No data available</p>
+  {% endif %}
+
+  <a href="{{ url_for('users') }}"><button>Back</button></a>
+{% endblock %}

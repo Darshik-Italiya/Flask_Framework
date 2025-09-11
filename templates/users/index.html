@@ -1,39 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Users</title>
-  </head>
-  <body>
-    <h1>Users</h1>
-    <a href="{{ url_for('new_user') }}"><button>New User</button></a>
-    <table>
+{% extends 'base.html' %}
+
+{% block title %}
+  Flask App - Users
+{% endblock %}
+
+{% block content %}
+  <h1>Users</h1>
+  <a href="{{ url_for('new_user') }}"><button>New User</button></a>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Bio</th>
+      <th>Actions</th>
+    </tr>
+    {% for user in users %}
       <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Bio</th>
-        <th>Actions</th>
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.profile.bio }}</td>
+        <td>
+          <div style="display: flex; gap: 5px;">
+            <a href="/users/{{ user.id }}/edit"><button>Edit</button></a>
+            <form action="{{ url_for('delete_user', id=user.id) }}" method="post">
+              {{ form.hidden_tag() }}
+              <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this user?')" />
+            </form>
+            <a href="/users/{{ user.id }}"><button>Read</button></a>
+          </div>
+        </td>
       </tr>
-      {% for user in users %}
-        <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.profile.bio }}</td>
-          <td>
-            <div style="display: flex; gap: 5px;">
-              <a href="/users/{{ user.id }}/edit"><button>Edit</button></a>
-              <form action="{{ url_for('delete_user', id=user.id) }}" method="post">
-                {{ form.hidden_tag() }}
-                <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this user?')" />
-              </form>
-              <a href="/users/{{ user.id }}"><button>Read</button></a>
-            </div>
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-  </body>
-</html>
+    {% endfor %}
+  </table>
+{% endblock %}
