@@ -98,7 +98,7 @@ def new_user():
         db.session.commit()
 
         new_profile = Profile(bio=form.bio.data, user=new_user)
-        db.session.add(new_user)
+        db.session.add(new_profile)
         db.session.commit()
 
         flash("Form submitted successfully...")
