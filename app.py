@@ -17,6 +17,13 @@ app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif"}
 db = SQLAlchemy(app)
 
 
+user_roles = db.Table(
+    "user_roles",
+    db.Column("User", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+    db.Column("Role", db.Integer, db.ForeignKey("roles.id"), primary_key=True),
+)
+
+
 # User Table
 class User(db.Model):
     __tablename__ = "users"
@@ -26,9 +33,22 @@ class User(db.Model):
 
     profile = db.relationship("Profile", backref="user", uselist=False)
     blogs = db.relationship("Blog", backref="author", lazy=True)
+    roles = db.relationship(
+        "Role", secondary=user_roles, backref=db.backref("users", lazy=True)
+    )
 
     def __repr__(self):
         return f"User: {self.name}, email: {self.email}"
+
+
+class Role(db.Model):
+    __tablename__ = "roles"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f"Role: {self.name}"
 
 
 class Profile(db.Model):
@@ -179,6 +199,20 @@ def create_blog():
 
 with app.app_context():
     db.create_all()
+
+    if not Role.query.filter_by(name="Admin").first():
+        principal_role = Role(name="Principal")
+        admin_role = Role(name="Admin")
+        teacher_role = Role(name="Teacher")
+        db.session.add_all([admin_role, teacher_role, principal_role])
+
+        user1 = User(name="demo", email="demo@gmail.com")
+        user1.roles.append(admin_role)
+        user1.roles.append(teacher_role)
+        user1.roles.append(principal_role)
+
+        db.session.add(user1)
+        db.session.commit()
 
 if __name__ == "__main":
     app.run(debug=True)

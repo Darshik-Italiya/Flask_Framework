@@ -20,6 +20,16 @@
     <p>
       <strong>Bio:</strong> {{ user.profile.bio }}
     </p>
+    <p>
+      <strong>User Roles:</strong>
+      {% if user.roles %}
+        <ul>
+          {% for role in user.roles %}
+            <ol>{{ role.name }}</ol>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </p>
 
     <hr />
 
